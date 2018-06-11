@@ -1,8 +1,7 @@
 import { repository } from "@loopback/repository";
 import { UserRepository } from "../repositories/user.repository";
-import { post, get, requestBody } from "@loopback/rest";
+import { post, get, requestBody, HttpErrors } from "@loopback/rest";
 import { User } from "../models/user";
-import { Login } from "../models/login";
 
 export class LoginController {
 
@@ -11,17 +10,23 @@ export class LoginController {
   ) { }
 
   @post('/login')
-  async loginUser(@requestBody() login: Login) {
+  async loginUser(@requestBody() user: User) {
+    if (!user.username || !user.password) {
+      throw new HttpErrors.Unauthorized('Please enter a password and a username');
+    }
     var AllUsers = await this.userRepo.find();
-    let registeredUser: User | null = null;
+    let registeredUser: Boolean = false;
     for (var i=0;i<AllUsers.length;i++) {
-      var usernametocompare = AllUsers[i].username;
-      if(usernametocompare == login.username){
-        registeredUser = AllUsers[i];
-        break;
+      var usertocompare = AllUsers[i];
+      if((usertocompare.username == user.username)&&(usertocompare.password == user.password)){
+        registeredUser = true;
+        return registeredUser;
+      }
+      else {
+        throw new HttpErrors.Unauthorized('invalid credentials');
       }
     }
-    return registeredUser
+    
   }
 
 }

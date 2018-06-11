@@ -15,29 +15,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const repository_1 = require("@loopback/repository");
 const user_repository_1 = require("../repositories/user.repository");
 const rest_1 = require("@loopback/rest");
-const login_1 = require("../models/login");
+const user_1 = require("../models/user");
 let LoginController = class LoginController {
     constructor(userRepo) {
         this.userRepo = userRepo;
     }
-    async loginUser(login) {
+    async loginUser(user) {
+        if (!user.username || !user.password) {
+            throw new rest_1.HttpErrors.Unauthorized('Please enter a password and a username');
+        }
         var AllUsers = await this.userRepo.find();
-        let registeredUser = null;
+        let registeredUser = false;
         for (var i = 0; i < AllUsers.length; i++) {
-            var usernametocompare = AllUsers[i].username;
-            if (usernametocompare == login.username) {
-                registeredUser = AllUsers[i];
-                break;
+            var usertocompare = AllUsers[i];
+            if ((usertocompare.username == user.username) && (usertocompare.password == user.password)) {
+                registeredUser = true;
+                return registeredUser;
+            }
+            else {
+                throw new rest_1.HttpErrors.Unauthorized('invalid credentials');
             }
         }
-        return registeredUser;
     }
 };
 __decorate([
     rest_1.post('/login'),
     __param(0, rest_1.requestBody()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [login_1.Login]),
+    __metadata("design:paramtypes", [user_1.User]),
     __metadata("design:returntype", Promise)
 ], LoginController.prototype, "loginUser", null);
 LoginController = __decorate([
