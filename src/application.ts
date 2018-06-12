@@ -25,9 +25,9 @@ export class GoldenThreadApiApplication extends BootMixin(
       connector: "loopback-connector-mysql",
       host: 'localhost',
       port: 3306,
-      database: 'golden_thread',
+      database: 'whereismyclient',
       user: 'root',
-      password: 'root1234'
+      password: ''
     });
     this.dataSource(dataSourceConfig);
 
