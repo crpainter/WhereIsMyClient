@@ -2,6 +2,8 @@ import { repository } from "@loopback/repository";
 import { UserRepository } from "../repositories/user.repository";
 import { post, get, requestBody, HttpErrors } from "@loopback/rest";
 import { User } from "../models/user";
+import { sign, verify } from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt';
 
 export class LoginController {
 
@@ -18,11 +20,27 @@ export class LoginController {
     let registeredUser: Boolean = false;
     for (var i=0;i<AllUsers.length;i++) {
       var usertocompare = AllUsers[i];
-      if((usertocompare.username == user.username)&&(usertocompare.password == user.password)){
+      if((usertocompare.username == user.username)&&(bcrypt.compare(user.password, usertocompare.password))){
         registeredUser = true;
-        return registeredUser;
+        var jwt = sign(
+          {
+            user: {
+              id: user.id,
+              firstname: user.firstname,
+              email: user.email
+            },
+            anything: "hello"
+          },
+          'shh',
+          {
+            issuer: 'auth.ix.co.za',
+            audience: 'ix.co.za',
+          },
+        );
+        return jwt;
       }
       else {
+        console.log((bcrypt.compare(user.password, usertocompare.password)))
         throw new HttpErrors.Unauthorized('invalid credentials');
       }
     }

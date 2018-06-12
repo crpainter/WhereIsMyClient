@@ -29,7 +29,7 @@ exports.up = function(db, done) {
 
 password: {
     type: 'string',
-    length: 40
+    length: 2000
 },
 }, done);
 return null;
