@@ -30,28 +30,19 @@ let LoginController = class LoginController {
         let registeredUser = false;
         for (var i = 0; i < AllUsers.length; i++) {
             var usertocompare = AllUsers[i];
-            console.log("usernames I'm tryin");
-            console.log(user.username);
-            console.log(usertocompare.username);
-            console.log("passwords I'm tryin");
-            console.log(user.password);
-            console.log(usertocompare.password);
             if ((usertocompare.username == user.username) && (await bcrypt.compare(user.password, usertocompare.password))) {
                 registeredUser = true;
                 var jwt = jsonwebtoken_1.sign({
                     user: {
                         id: user.id,
                         username: user.username,
-                        email: user.email
+                        password: user.password
                     },
-                    anything: "hello"
                 }, 'shh', {
                     issuer: 'auth.ix.co.za',
                     audience: 'ix.co.za',
                 });
-                console.log('succesful login');
-                console.log(await bcrypt.compare(user.password, usertocompare.password));
-                return jwt;
+                return { token: jwt };
             }
             else {
                 //console.log(bcrypt.compare(user.password, usertocompare.password))

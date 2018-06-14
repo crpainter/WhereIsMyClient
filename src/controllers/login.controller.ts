@@ -27,9 +27,8 @@ export class LoginController {
             user: {
               id: user.id,
               username: user.username,
-              email: user.email
+              password: user.password
             },
-            anything: "hello"
           },
           'shh',
           {
@@ -37,9 +36,7 @@ export class LoginController {
             audience: 'ix.co.za',
           },
         );
-        console.log('succesful login')
-        console.log(await bcrypt.compare(user.password, usertocompare.password))
-        return jwt;
+        return {token: jwt};
       }
       else {
         //console.log(bcrypt.compare(user.password, usertocompare.password))
