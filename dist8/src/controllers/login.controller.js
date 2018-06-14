@@ -30,12 +30,18 @@ let LoginController = class LoginController {
         let registeredUser = false;
         for (var i = 0; i < AllUsers.length; i++) {
             var usertocompare = AllUsers[i];
-            if ((usertocompare.username == user.username) && (bcrypt.compare(user.password, usertocompare.password))) {
+            console.log("usernames I'm tryin");
+            console.log(user.username);
+            console.log(usertocompare.username);
+            console.log("passwords I'm tryin");
+            console.log(user.password);
+            console.log(usertocompare.password);
+            if ((usertocompare.username == user.username) && (await bcrypt.compare(user.password, usertocompare.password))) {
                 registeredUser = true;
                 var jwt = jsonwebtoken_1.sign({
                     user: {
                         id: user.id,
-                        firstname: user.firstname,
+                        username: user.username,
                         email: user.email
                     },
                     anything: "hello"
@@ -43,12 +49,16 @@ let LoginController = class LoginController {
                     issuer: 'auth.ix.co.za',
                     audience: 'ix.co.za',
                 });
+                console.log('succesful login');
+                console.log(await bcrypt.compare(user.password, usertocompare.password));
                 return jwt;
             }
             else {
-                console.log((bcrypt.compare(user.password, usertocompare.password)));
-                throw new rest_1.HttpErrors.Unauthorized('invalid credentials');
+                //console.log(bcrypt.compare(user.password, usertocompare.password))
             }
+        }
+        if (!registeredUser) {
+            throw new rest_1.HttpErrors.Unauthorized('invalid credentials');
         }
     }
 };

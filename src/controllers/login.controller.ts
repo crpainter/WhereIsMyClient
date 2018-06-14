@@ -20,13 +20,13 @@ export class LoginController {
     let registeredUser: Boolean = false;
     for (var i=0;i<AllUsers.length;i++) {
       var usertocompare = AllUsers[i];
-      if((usertocompare.username == user.username)&&(bcrypt.compare(user.password, usertocompare.password))){
+      if((usertocompare.username == user.username)&&(await bcrypt.compare(user.password, usertocompare.password))){
         registeredUser = true;
         var jwt = sign(
           {
             user: {
               id: user.id,
-              firstname: user.firstname,
+              username: user.username,
               email: user.email
             },
             anything: "hello"
@@ -37,12 +37,17 @@ export class LoginController {
             audience: 'ix.co.za',
           },
         );
+        console.log('succesful login')
+        console.log(await bcrypt.compare(user.password, usertocompare.password))
         return jwt;
       }
       else {
-        console.log((bcrypt.compare(user.password, usertocompare.password)))
-        throw new HttpErrors.Unauthorized('invalid credentials');
+        //console.log(bcrypt.compare(user.password, usertocompare.password))
+        
       }
+    }
+    if (!registeredUser) {
+      throw new HttpErrors.Unauthorized('invalid credentials');
     }
     
   }
