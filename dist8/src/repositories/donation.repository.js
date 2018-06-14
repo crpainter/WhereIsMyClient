@@ -18,7 +18,7 @@ const loopback_datasource_juggler_1 = require("loopback-datasource-juggler");
 const user_donation_1 = require("../models/user_donation");
 let DonationRepository = class DonationRepository extends repository_1.DefaultCrudRepository {
     constructor(datasource) {
-        super(user_donation_1.UserDonation, datasource);
+        super(user_donation_1.User_Donation, datasource);
         this.datasource = datasource;
     }
 };

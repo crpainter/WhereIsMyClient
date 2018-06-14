@@ -1,8 +1,13 @@
-import { UserDonation } from "../models/user_donation";
+import { User_Donation } from "../models/user_donation";
+import { Charity } from "../models/charity";
+import { CharityRepository } from "../repositories/charity.repository";
 export declare class DonationsController {
     private donationRepo;
-    constructor(donationRepo: UserDonation);
-    allDonationForUser(UserToFind: number): Promise<UserDonation | null>;
-    getAllDonation(): Promise<Array<UserDonation>>;
+    private charityRepo;
+    constructor(donationRepo: User_Donation, charityRepo: CharityRepository);
+    private token;
+    allDonationForUser(UserToFind: number): Promise<User_Donation | null>;
+    charitiesDonatedTo(jwt: string): Promise<Charity[]>;
+    getAllDonation(): Promise<Array<User_Donation>>;
     addDonation(user_Id: number, charity_Id: number, donation_amount: number): Promise<any>;
 }

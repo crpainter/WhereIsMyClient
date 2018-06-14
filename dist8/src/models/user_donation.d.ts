@@ -1,5 +1,5 @@
 import { Entity } from '@loopback/repository';
-export declare class UserDonation extends Entity {
+export declare class User_Donation extends Entity {
     id?: number;
     user_id: number;
     charity_id: number;
