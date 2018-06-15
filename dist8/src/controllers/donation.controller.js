@@ -41,7 +41,7 @@ let DonationsController = class DonationsController {
                     id: { inq: charityIdArray }
                 }
             });
-            return charitiesDonatedToList;
+            return jwtBody.user.user_id;
         }
         catch (err) {
             throw new rest_1.HttpErrors.BadRequest('JWT token invalid');
