@@ -34,7 +34,7 @@ let LoginController = class LoginController {
                 registeredUser = true;
                 var jwt = jsonwebtoken_1.sign({
                     user: {
-                        id: user.id,
+                        id: usertocompare.id,
                         username: user.username,
                         password: user.password
                     },

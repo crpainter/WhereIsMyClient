@@ -20,17 +20,18 @@ export class DonationsController {
      return await this.donationRepo.find({where: {user_id: UserToFind}});
   }
 
-  @get('/donation1/userCharityList')
+  @get('/donation1/charitiesDonatedTo')
   async charitiesDonatedTo(@param.query.string('jwt') jwt: string) {
     if (!jwt) throw new HttpErrors.Unauthorized('JWT token is required.');
 
     try {
     var jwtBody = verify(jwt, 'shh') as any;
-    var allDonations =  this.donationRepo.find({where: {user_id: jwtBody.user.user_id}});
+    let allDonations: User_Donation[] =  await this.donationRepo.find({where: {user_id: jwtBody.user.id}});
     let charityIdArray : number[] = [];
     for (var i = 0; i < allDonations.length; ++i) {
       charityIdArray.push(allDonations[i].charity_id)
     }
+    
     var charitiesDonatedToList = await this.charityRepo.find({
       where: {
         id: { inq: charityIdArray }
