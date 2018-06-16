@@ -30,7 +30,7 @@ let DonationsController = class DonationsController {
         if (!jwt)
             throw new rest_1.HttpErrors.Unauthorized('JWT token is required.');
         try {
-            var jwtBody = jsonwebtoken_1.verify(this.token, 'shh');
+            var jwtBody = jsonwebtoken_1.verify(jwt, 'shh');
             var allDonations = this.donationRepo.find({ where: { user_id: jwtBody.user.user_id } });
             let charityIdArray = [];
             for (var i = 0; i < allDonations.length; ++i) {
@@ -41,7 +41,7 @@ let DonationsController = class DonationsController {
                     id: { inq: charityIdArray }
                 }
             });
-            return jwtBody.user.user_id;
+            return charitiesDonatedToList;
         }
         catch (err) {
             throw new rest_1.HttpErrors.BadRequest('JWT token invalid');
@@ -66,7 +66,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], DonationsController.prototype, "allDonationForUser", null);
 __decorate([
-    rest_1.get('donation/charitiesDonatedTo'),
+    rest_1.get('/donation1/userCharityList'),
     __param(0, rest_1.param.query.string('jwt')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
