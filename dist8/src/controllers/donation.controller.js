@@ -36,12 +36,36 @@ let DonationsController = class DonationsController {
             for (var i = 0; i < allDonations.length; ++i) {
                 charityIdArray.push(allDonations[i].charity_id);
             }
-            var charitiesDonatedToList = await this.charityRepo.find({
+            let charitiesDonatedToList = await this.charityRepo.find({
                 where: {
                     id: { inq: charityIdArray }
                 }
             });
-            return charitiesDonatedToList;
+            let charitiesDonatedToWithSums = [];
+            for (var i = 0; i < charitiesDonatedToList.length; ++i) {
+                console.log("I'm analyzing the donations to a new charity for this user");
+                var counter = 0;
+                var DonationsToThisCharity = allDonations.filter(function (obj) {
+                    return (obj.charity_id == charitiesDonatedToList[i].id);
+                });
+                for (var j = 0; j < DonationsToThisCharity.length; ++j) {
+                    counter = counter + DonationsToThisCharity[j].DonationSum;
+                    console.log("I found a donation for a charity");
+                }
+                let { id, name, description, logourl, siteurl, userDonationTotal } = charitiesDonatedToList[i];
+                console.log("I'm adding this charity to my return array");
+                userDonationTotal = counter;
+                charitiesDonatedToWithSums.push({
+                    id,
+                    name,
+                    description,
+                    logourl,
+                    siteurl,
+                    userDonationTotal,
+                    counter
+                });
+            }
+            return charitiesDonatedToWithSums;
         }
         catch (err) {
             throw new rest_1.HttpErrors.BadRequest('JWT token invalid');
