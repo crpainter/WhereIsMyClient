@@ -70,15 +70,16 @@ export class DonationsController {
     return await this.donationRepo.find();
   }
 
-  @post('/user/{user_Id}/charity/{charity_Id}/donation')
+  @post('/user/charity/addDonation')
   async addDonation(
-    @param.path.number('user_Id') user_Id: number, 
-    @param.path.number('charity_Id') charity_Id: number, 
-    @requestBody() donation_amount: number
+    @param.query.string('jwt') jwt: string, 
+    @param.query.number('charity_Id') charity_Id: number, 
+    @param.query.number('donation_amount') donation_amount: number
   ) {
+    var jsBody:any = verify(jwt, 'shh');
     var donation = new User_Donation;
     donation.DonationSum = donation_amount;
-    donation.user_id = user_Id;
+    donation.user_id = jsBody.user.id;
     donation.charity_id = charity_Id;
     return await this.donationRepo.create(donation);
   }
