@@ -73,14 +73,14 @@ export class DonationsController {
   @post('/user/charity/addDonation')
   async addDonation(
     @param.query.string('jwt') jwt: string, 
-    @param.query.number('charity_Id') charity_Id: number, 
+    @param.query.number('charity_id') charity_id: number, 
     @param.query.number('donation_amount') donation_amount: number
   ) {
     var jsBody:any = verify(jwt, 'shh');
     var donation = new User_Donation;
     donation.DonationSum = donation_amount;
     donation.user_id = jsBody.user.id;
-    donation.charity_id = charity_Id;
+    donation.charity_id = charity_id;
     return await this.donationRepo.create(donation);
   }
 }

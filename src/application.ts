@@ -1,6 +1,6 @@
-import {ApplicationConfig} from '@loopback/core';
-import {RestApplication, RestServer, RestBindings} from '@loopback/rest';
-import {MySequence} from './sequence';
+import { ApplicationConfig } from '@loopback/core';
+import { RestApplication, RestServer, RestBindings } from '@loopback/rest';
+import { MySequence } from './sequence';
 import {
   Class,
   Repository,
@@ -10,15 +10,31 @@ import {
 
 /* tslint:disable:no-unused-variable */
 // Binding and Booter imports are required to infer types for BootMixin!
-import {BootMixin, Booter, Binding} from '@loopback/boot';
+import { BootMixin, Booter, Binding } from '@loopback/boot';
 /* tslint:enable:no-unused-variable */
 
 export class GoldenThreadApiApplication extends BootMixin(
   RepositoryMixin(RestApplication)
 ) {
-  
+
   constructor(options?: ApplicationConfig) {
     super(options);
+
+    // super({
+    //   rest: {
+    //     port: process.env.PORT || 3000
+    //   }
+    // })
+
+    // var dataSourceConfig = new juggler.DataSource({
+    //   name: "db",
+    //   connector: "loopback-connector-mysql",
+    //   host: 'localhost',
+    //   port: 3306,
+    //   database: 'whereismyclient',
+    //   user: 'root',
+    //   password: ''
+    // });
 
     var dataSourceConfig = new juggler.DataSource({
       name: "db",
@@ -33,7 +49,7 @@ export class GoldenThreadApiApplication extends BootMixin(
     // var dataSourceConfig = new juggler.DataSource({
     //   name: "db",
     //   connector: 'memory'
-    // })
+    })
     this.dataSource(dataSourceConfig);
 
     // Set up the custom sequence
