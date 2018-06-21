@@ -34,6 +34,26 @@ export class Charity extends Entity {
     })
     userDonationTotal: number;
 
+    @property({
+        type: 'string',
+    })
+    featuredimage1: string;
+
+    @property({
+        type: 'string',
+    })
+    featuredimage2: string;
+
+    @property({
+        type: 'string',
+    })
+    featuredimage3: string;
+
+    @property({
+        type: 'string',
+    })
+    cause: string;
+
     getId() {
         return this.id;
     }
