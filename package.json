@@ -31,7 +31,7 @@
     "prestart": "npm run build:current",
     "start": "node .",
     "prepublishOnly": "npm run test",
-    "chris": "export NODE_ENV=chris && export DATABASE_HOST=localhost && export DATABASE_NAME=whereismyclient && export DATABASE_USER=root && export DATABASE_PASSWORD=root1234 && db-migrate up && npm start",
+    "chris": "export NODE_ENV=chris && export DATABASE_HOST=localhost && export DATABASE_NAME=whereismyclient && export DATABASE_USER=root && export DATABASE_PASSWORD= && db-migrate up && npm start",
     "live": "db-migrate up && node ."
   },
   "repository": {

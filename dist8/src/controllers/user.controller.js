@@ -30,7 +30,7 @@ let UserController = class UserController {
         //     break;
         //   }
         // }
-        var jsBody = jsonwebtoken_1.verify(jwt, 'shh');
+        var jsBody = jsonwebtoken_1.verify(jwt, 'JumpHigher');
         foundUser = jsBody.user;
         return foundUser;
     }

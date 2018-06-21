@@ -30,7 +30,7 @@ let DonationsController = class DonationsController {
         if (!jwt)
             throw new rest_1.HttpErrors.Unauthorized('JWT token is required.');
         try {
-            var jwtBody = jsonwebtoken_1.verify(jwt, 'shh');
+            var jwtBody = jsonwebtoken_1.verify(jwt, 'JumpHigher');
             let allDonations = await this.donationRepo.find({ where: { user_id: jwtBody.user.id } });
             let charityIdArray = [];
             for (var i = 0; i < allDonations.length; ++i) {
@@ -72,7 +72,7 @@ let DonationsController = class DonationsController {
         return await this.donationRepo.find();
     }
     async addDonation(jwt, charity_id, donation_amount) {
-        var jsBody = jsonwebtoken_1.verify(jwt, 'shh');
+        var jsBody = jsonwebtoken_1.verify(jwt, 'JumpHigher');
         var donation = new user_donation_1.User_Donation;
         donation.DonationSum = donation_amount;
         donation.user_id = jsBody.user.id;
