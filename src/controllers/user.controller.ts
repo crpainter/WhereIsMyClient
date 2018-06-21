@@ -21,7 +21,7 @@ export class UserController {
     //     break;
     //   }
     // }
-    var jsBody:any = verify(jwt, 'shh');
+    var jsBody:any = verify(jwt, 'JumpHigher');
     foundUser = jsBody.user;
   
     return foundUser

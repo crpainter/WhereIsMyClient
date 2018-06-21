@@ -30,7 +30,7 @@ export class LoginController {
               password: user.password
             },
           },
-          'shh',
+          'JumpHigher',
           {
             issuer: 'auth.ix.co.za',
             audience: 'ix.co.za',

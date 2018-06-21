@@ -25,7 +25,7 @@ export class DonationsController {
     if (!jwt) throw new HttpErrors.Unauthorized('JWT token is required.');
 
     try {
-    var jwtBody = verify(jwt, 'shh') as any;
+    var jwtBody = verify(jwt, 'JumpHigher') as any;
     let allDonations: User_Donation[] =  await this.donationRepo.find({where: {user_id: jwtBody.user.id}});
     let charityIdArray : number[] = [];
     for (var i = 0; i < allDonations.length; ++i) {
@@ -76,7 +76,7 @@ export class DonationsController {
     @param.query.number('charity_id') charity_id: number, 
     @param.query.number('donation_amount') donation_amount: number
   ) {
-    var jsBody:any = verify(jwt, 'shh');
+    var jsBody:any = verify(jwt, 'JumpHigher');
     var donation = new User_Donation;
     donation.DonationSum = donation_amount;
     donation.user_id = jsBody.user.id;
