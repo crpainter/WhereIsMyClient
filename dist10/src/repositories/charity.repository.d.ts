@@ -1,7 +1,7 @@
 import { DefaultCrudRepository } from '@loopback/repository';
 import { DataSource } from 'loopback-datasource-juggler';
-import { Pizza } from '../models/pizza';
-export declare class PizzaRepository extends DefaultCrudRepository<Pizza, typeof Pizza.prototype.id> {
+import { Charity } from '../models/charity';
+export declare class CharityRepository extends DefaultCrudRepository<Charity, typeof Charity.prototype.id> {
     protected datasource: DataSource;
     constructor(datasource: DataSource);
 }

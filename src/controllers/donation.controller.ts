@@ -20,23 +20,45 @@ export class DonationsController {
      return await this.donationRepo.find({where: {user_id: UserToFind}});
   }
 
-  @get('donation/charitiesDonatedTo')
+  @get('/donation1/charitiesDonatedTo')
   async charitiesDonatedTo(@param.query.string('jwt') jwt: string) {
     if (!jwt) throw new HttpErrors.Unauthorized('JWT token is required.');
 
     try {
-    var jwtBody = verify(this.token, 'shh') as any;
-    var allDonations =  this.donationRepo.find({where: {user_id: jwtBody.user.user_id}});
+    var jwtBody = verify(jwt, 'shh') as any;
+    let allDonations: User_Donation[] =  await this.donationRepo.find({where: {user_id: jwtBody.user.id}});
     let charityIdArray : number[] = [];
     for (var i = 0; i < allDonations.length; ++i) {
       charityIdArray.push(allDonations[i].charity_id)
     }
-    var charitiesDonatedToList = await this.charityRepo.find({
+    
+    let charitiesDonatedToList = await this.charityRepo.find({
       where: {
         id: { inq: charityIdArray }
       }
     });
-    return charitiesDonatedToList;
+    let charitiesDonatedToWithSums: any[] = [];
+    for (var i = 0; i< charitiesDonatedToList.length; ++i) {
+      var counter = 0;
+      var DonationsToThisCharity = allDonations.filter(function(obj){
+        return (obj.charity_id == charitiesDonatedToList[i].id)
+      });
+      for (var j = 0; j< DonationsToThisCharity.length; ++j) {
+        counter = counter + DonationsToThisCharity[j].DonationSum;
+      }
+      let { id, name, description, logourl, siteurl, userDonationTotal } = charitiesDonatedToList[i];
+      userDonationTotal = counter;
+      charitiesDonatedToWithSums.push({
+        id,
+        name,
+        description,
+        logourl,
+        siteurl,
+        userDonationTotal,
+        counter
+      })
+    }
+    return charitiesDonatedToWithSums;
     }
     catch(err) {
       throw new HttpErrors.BadRequest('JWT token invalid');
@@ -48,16 +70,17 @@ export class DonationsController {
     return await this.donationRepo.find();
   }
 
-  @post('/user/{user_Id}/charity/{charity_Id}/donation')
+  @post('/user/charity/addDonation')
   async addDonation(
-    @param.path.number('user_Id') user_Id: number, 
-    @param.path.number('charity_Id') charity_Id: number, 
-    @requestBody() donation_amount: number
+    @param.query.string('jwt') jwt: string, 
+    @param.query.number('charity_id') charity_id: number, 
+    @param.query.number('donation_amount') donation_amount: number
   ) {
+    var jsBody:any = verify(jwt, 'shh');
     var donation = new User_Donation;
     donation.DonationSum = donation_amount;
-    donation.user_id = user_Id;
-    donation.charity_id = charity_Id;
+    donation.user_id = jsBody.user.id;
+    donation.charity_id = charity_id;
     return await this.donationRepo.create(donation);
   }
 }

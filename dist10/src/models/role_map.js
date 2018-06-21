@@ -8,23 +8,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const repository_1 = require("@loopback/repository");
-const core_1 = require("@loopback/core");
-const loopback_datasource_juggler_1 = require("loopback-datasource-juggler");
-const pizza_1 = require("../models/pizza");
-let PizzaRepository = class PizzaRepository extends repository_1.DefaultCrudRepository {
-    constructor(datasource) {
-        super(pizza_1.Pizza, datasource);
-        this.datasource = datasource;
+let RoleMap = class RoleMap extends repository_1.Entity {
+    getId() {
+        return this.id;
     }
 };
-PizzaRepository = __decorate([
-    __param(0, core_1.inject('datasources.db')),
-    __metadata("design:paramtypes", [loopback_datasource_juggler_1.DataSource])
-], PizzaRepository);
-exports.PizzaRepository = PizzaRepository;
-//# sourceMappingURL=pizza.repository.js.map
+__decorate([
+    repository_1.property({
+        type: 'number',
+        id: true
+    }),
+    __metadata("design:type", Number)
+], RoleMap.prototype, "id", void 0);
+__decorate([
+    repository_1.property({
+        type: 'number',
+    }),
+    __metadata("design:type", Number)
+], RoleMap.prototype, "user_id", void 0);
+__decorate([
+    repository_1.property({
+        type: 'number'
+    }),
+    __metadata("design:type", Number)
+], RoleMap.prototype, "role_id", void 0);
+RoleMap = __decorate([
+    repository_1.model()
+], RoleMap);
+exports.RoleMap = RoleMap;
+//# sourceMappingURL=role_map.js.map

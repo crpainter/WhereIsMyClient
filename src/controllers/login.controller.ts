@@ -25,7 +25,7 @@ export class LoginController {
         var jwt = sign(
           {
             user: {
-              id: user.id,
+              id: usertocompare.id,
               username: user.username,
               password: user.password
             },
