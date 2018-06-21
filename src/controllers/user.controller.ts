@@ -1,8 +1,9 @@
 import { repository } from "@loopback/repository";
 import { UserRepository } from "../repositories/user.repository";
-import { post, get, requestBody, param } from "@loopback/rest";
+import { post, get, requestBody, param, patch, HttpErrors } from "@loopback/rest";
 import { User } from "../models/user";
-import { verify } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt';
 
 export class UserController {
 
@@ -26,6 +27,49 @@ export class UserController {
   
     return foundUser
   }
+
+  @patch('/updateUser') 
+    async updateUser(
+      @param.query.string('jwt') jwt: string,
+      @requestBody() obj: Partial<User>): Promise<any> {
+      if (!jwt) throw new HttpErrors.Unauthorized('JWT token is required.');
+
+      try {
+        var jwtBody = verify(jwt, 'JumpHigher') as any;
+        await this.userRepo.updateById(jwtBody.user.id, obj);
+        var changedUser = await this.userRepo.findById(jwtBody.user.id);
+
+        if (changedUser.password.length < 15) {
+          let hashedPassword = await bcrypt.hash(changedUser.password, 10);
+          obj.password = hashedPassword;
+          await this.userRepo.updateById(changedUser.id, obj);
+        }
+        
+        var jwt = sign(
+          {
+            user: {
+              id: changedUser.id,
+              username: changedUser.username,
+              password: changedUser.password
+            },
+          },
+          'JumpHigher',
+          {
+            issuer: 'auth.ix.co.za',
+            audience: 'ix.co.za',
+          },
+        );
+
+        console.log(jwt)
+        
+        return {
+          token: jwt,
+        };
+
+      } catch (err) {
+        throw new HttpErrors.BadRequest('JWT token invalid');
+      }
+    }
 
   @get('/users')
   async getAllUsers(): Promise<Array<User>> {
