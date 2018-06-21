@@ -16,6 +16,7 @@ const repository_1 = require("@loopback/repository");
 const user_repository_1 = require("../repositories/user.repository");
 const rest_1 = require("@loopback/rest");
 const jsonwebtoken_1 = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 let UserController = class UserController {
     constructor(userRepo) {
         this.userRepo = userRepo;
@@ -34,6 +35,37 @@ let UserController = class UserController {
         foundUser = jsBody.user;
         return foundUser;
     }
+    async updateUser(jwt, obj) {
+        if (!jwt)
+            throw new rest_1.HttpErrors.Unauthorized('JWT token is required.');
+        try {
+            var jwtBody = jsonwebtoken_1.verify(jwt, 'JumpHigher');
+            await this.userRepo.updateById(jwtBody.user.id, obj);
+            var changedUser = await this.userRepo.findById(jwtBody.user.id);
+            if (changedUser.password.length < 15) {
+                let hashedPassword = await bcrypt.hash(changedUser.password, 10);
+                obj.password = hashedPassword;
+                await this.userRepo.updateById(changedUser.id, obj);
+            }
+            var jwt = jsonwebtoken_1.sign({
+                user: {
+                    id: changedUser.id,
+                    username: changedUser.username,
+                    password: changedUser.password
+                },
+            }, 'JumpHigher', {
+                issuer: 'auth.ix.co.za',
+                audience: 'ix.co.za',
+            });
+            console.log(jwt);
+            return {
+                token: jwt,
+            };
+        }
+        catch (err) {
+            throw new rest_1.HttpErrors.BadRequest('JWT token invalid');
+        }
+    }
     async getAllUsers() {
         return await this.userRepo.find();
     }
@@ -45,6 +77,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findUser", null);
+__decorate([
+    rest_1.patch('/updateUser'),
+    __param(0, rest_1.param.query.string('jwt')),
+    __param(1, rest_1.requestBody()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "updateUser", null);
 __decorate([
     rest_1.get('/users'),
     __metadata("design:type", Function),
