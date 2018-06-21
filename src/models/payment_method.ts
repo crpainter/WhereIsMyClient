@@ -1,6 +1,8 @@
 import { Entity, property, model } from '@loopback/repository';
 
-@model()
+@model({
+    name: "payment_method"
+})
 export class PaymentMethod extends Entity {
     @property({
         type: 'number',
