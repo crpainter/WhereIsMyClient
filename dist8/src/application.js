@@ -36,29 +36,28 @@ class GoldenThreadApiApplication extends boot_1.BootMixin(repository_1.Repositor
         // var dataSourceConfig = new juggler.DataSource({
         //   name: "db",
         //   connector: 'memory'
+        //})
+        this.dataSource(dataSourceConfig);
+        // Set up the custom sequence
+        this.sequence(sequence_1.MySequence);
+        this.projectRoot = __dirname;
+        // Customize @loopback/boot Booter Conventions here
+        this.bootOptions = {
+            controllers: {
+                // Customize ControllerBooter Conventions here
+                dirs: ['controllers'],
+                extensions: ['.controller.js'],
+                nested: true,
+            },
+        };
+    }
+    async start() {
+        await super.start();
+        const server = await this.getServer(rest_1.RestServer);
+        const port = await server.get(rest_1.RestBindings.PORT);
+        console.log(`Server is running at http://127.0.0.1:${port}`);
+        console.log(`Try http://127.0.0.1:${port}/ping`);
     }
 }
 exports.GoldenThreadApiApplication = GoldenThreadApiApplication;
-this.dataSource(dataSourceConfig);
-// Set up the custom sequence
-this.sequence(sequence_1.MySequence);
-this.projectRoot = __dirname;
-// Customize @loopback/boot Booter Conventions here
-this.bootOptions = {
-    controllers: {
-        // Customize ControllerBooter Conventions here
-        dirs: ['controllers'],
-        extensions: ['.controller.js'],
-        nested: true,
-    },
-};
-async;
-start();
-{
-    await super.start();
-    const server = await this.getServer(rest_1.RestServer);
-    const port = await server.get(rest_1.RestBindings.PORT);
-    console.log(`Server is running at http://127.0.0.1:${port}`);
-    console.log(`Try http://127.0.0.1:${port}/ping`);
-}
 //# sourceMappingURL=application.js.map

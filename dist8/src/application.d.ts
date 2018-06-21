@@ -5,25 +5,11 @@ import { Booter, Binding } from '@loopback/boot';
 declare const GoldenThreadApiApplication_base: (new (...args: any[]) => {
     [x: string]: any;
     projectRoot: string;
-    bootOptions?: {
-        [prop: string]: any;
-        controllers?: {
-            dirs?: string | string[] | undefined;
-            extensions?: string | string[] | undefined;
-            nested?: boolean | undefined;
-            glob?: string | undefined;
-        } | undefined;
-        repositories?: {
-            dirs?: string | string[] | undefined;
-            extensions?: string | string[] | undefined;
-            nested?: boolean | undefined;
-            glob?: string | undefined;
-        } | undefined;
-    } | undefined;
+    bootOptions?: import("../../../../../Users/Chris/Documents/whereismyclient-api/node_modules/@loopback/boot/dist8/src/interfaces").BootOptions | undefined;
     boot(): Promise<void>;
-    booters(...booterCls: (new (...args: any[]) => Booter)[]): Binding<any>[];
-    component(component: new (...args: any[]) => {}): void;
-    mountComponentBooters(component: new (...args: any[]) => {}): void;
+    booters(...booterCls: import("../../../../../Users/Chris/Documents/whereismyclient-api/node_modules/@loopback/context/dist8/src/value-promise").Constructor<Booter>[]): Binding<any>[];
+    component(component: import("../../../../../Users/Chris/Documents/whereismyclient-api/node_modules/@loopback/context/dist8/src/value-promise").Constructor<{}>): void;
+    mountComponentBooters(component: import("../../../../../Users/Chris/Documents/whereismyclient-api/node_modules/@loopback/context/dist8/src/value-promise").Constructor<{}>): void;
 }) & (new (...args: any[]) => {
     [x: string]: any;
     repository(repo: Class<Repository<any>>): void;
@@ -34,4 +20,6 @@ declare const GoldenThreadApiApplication_base: (new (...args: any[]) => {
 }) & typeof RestApplication;
 export declare class GoldenThreadApiApplication extends GoldenThreadApiApplication_base {
     constructor(options?: ApplicationConfig);
+    start(): Promise<void>;
 }
+export {};
