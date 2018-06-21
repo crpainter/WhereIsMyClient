@@ -35,7 +35,9 @@ __decorate([
     __metadata("design:type", Number)
 ], Friendship.prototype, "friend_id", void 0);
 Friendship = __decorate([
-    repository_1.model()
+    repository_1.model({
+        name: "friendship"
+    })
 ], Friendship);
 exports.Friendship = Friendship;
 //# sourceMappingURL=friendship.js.map

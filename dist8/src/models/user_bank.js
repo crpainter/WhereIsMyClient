@@ -29,7 +29,9 @@ __decorate([
     __metadata("design:type", String)
 ], UserBank.prototype, "bankName", void 0);
 UserBank = __decorate([
-    repository_1.model()
+    repository_1.model({
+        name: "user_bank"
+    })
 ], UserBank);
 exports.UserBank = UserBank;
 //# sourceMappingURL=user_bank.js.map

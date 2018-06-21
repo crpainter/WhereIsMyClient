@@ -35,7 +35,9 @@ __decorate([
     __metadata("design:type", Number)
 ], RoleMap.prototype, "role_id", void 0);
 RoleMap = __decorate([
-    repository_1.model()
+    repository_1.model({
+        name: "role_map"
+    })
 ], RoleMap);
 exports.RoleMap = RoleMap;
 //# sourceMappingURL=role_map.js.map

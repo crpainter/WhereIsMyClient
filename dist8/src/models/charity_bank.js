@@ -35,7 +35,9 @@ __decorate([
     __metadata("design:type", Number)
 ], CharityBank.prototype, "charityId", void 0);
 CharityBank = __decorate([
-    repository_1.model()
+    repository_1.model({
+        name: "charity_bank"
+    })
 ], CharityBank);
 exports.CharityBank = CharityBank;
 //# sourceMappingURL=charity_bank.js.map

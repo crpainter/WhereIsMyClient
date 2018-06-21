@@ -47,7 +47,9 @@ __decorate([
     __metadata("design:type", Number)
 ], User_Donation.prototype, "project_id", void 0);
 User_Donation = __decorate([
-    repository_1.model()
+    repository_1.model({
+        name: "user_donation"
+    })
 ], User_Donation);
 exports.User_Donation = User_Donation;
 //# sourceMappingURL=user_donation.js.map

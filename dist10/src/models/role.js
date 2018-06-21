@@ -29,7 +29,9 @@ __decorate([
     __metadata("design:type", String)
 ], Role.prototype, "type", void 0);
 Role = __decorate([
-    repository_1.model()
+    repository_1.model({
+        name: "role"
+    })
 ], Role);
 exports.Role = Role;
 //# sourceMappingURL=role.js.map
