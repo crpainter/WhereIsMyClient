@@ -49,7 +49,8 @@ export class GoldenThreadApiApplication extends BootMixin(
     // var dataSourceConfig = new juggler.DataSource({
     //   name: "db",
     //   connector: 'memory'
-    })
+    //})
+    
     this.dataSource(dataSourceConfig);
 
     // Set up the custom sequence
@@ -76,3 +77,4 @@ export class GoldenThreadApiApplication extends BootMixin(
     console.log(`Try http://127.0.0.1:${port}/ping`);
   }
 }
+

@@ -6,5 +6,9 @@ export declare class Charity extends Entity {
     logourl: string;
     siteurl: string;
     userDonationTotal: number;
+    featuredimage1: string;
+    featuredimage2: string;
+    featuredimage3: string;
+    cause: string;
     getId(): number | undefined;
 }
