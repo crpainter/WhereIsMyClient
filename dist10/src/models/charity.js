@@ -53,6 +53,30 @@ __decorate([
     }),
     __metadata("design:type", Number)
 ], Charity.prototype, "userDonationTotal", void 0);
+__decorate([
+    repository_1.property({
+        type: 'string',
+    }),
+    __metadata("design:type", String)
+], Charity.prototype, "featuredimage1", void 0);
+__decorate([
+    repository_1.property({
+        type: 'string',
+    }),
+    __metadata("design:type", String)
+], Charity.prototype, "featuredimage2", void 0);
+__decorate([
+    repository_1.property({
+        type: 'string',
+    }),
+    __metadata("design:type", String)
+], Charity.prototype, "featuredimage3", void 0);
+__decorate([
+    repository_1.property({
+        type: 'string',
+    }),
+    __metadata("design:type", String)
+], Charity.prototype, "cause", void 0);
 Charity = __decorate([
     repository_1.model()
 ], Charity);

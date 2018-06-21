@@ -15,20 +15,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const repository_1 = require("@loopback/repository");
 const user_repository_1 = require("../repositories/user.repository");
 const rest_1 = require("@loopback/rest");
+const jsonwebtoken_1 = require("jsonwebtoken");
 let UserController = class UserController {
     constructor(userRepo) {
         this.userRepo = userRepo;
     }
-    async findUser(idToBeFound) {
-        var AllUsers = await this.userRepo.find();
+    async findUser(jwt) {
+        // var AllUsers = await this.userRepo.find();
         let foundUser = null;
-        for (var i = 0; i < AllUsers.length; i++) {
-            var idtocompare = AllUsers[i].id;
-            if (idtocompare == idToBeFound) {
-                foundUser = AllUsers[i];
-                break;
-            }
-        }
+        // for (var i=0;i<AllUsers.length;i++) {
+        //   var idtocompare = AllUsers[i].id;
+        //   if(idtocompare == idToBeFound){
+        //     foundUser = AllUsers[i];
+        //     break;
+        //   }
+        // }
+        var jsBody = jsonwebtoken_1.verify(jwt, 'JumpHigher');
+        foundUser = jsBody.user;
         return foundUser;
     }
     async getAllUsers() {
@@ -36,14 +39,14 @@ let UserController = class UserController {
     }
 };
 __decorate([
-    rest_1.get('/user/{id}'),
-    __param(0, rest_1.param.path.number('id')),
+    rest_1.get('/user'),
+    __param(0, rest_1.param.query.string('jwt')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findUser", null);
 __decorate([
-    rest_1.get('/user'),
+    rest_1.get('/users'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)

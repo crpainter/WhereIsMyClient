@@ -50,7 +50,7 @@ let DonationsController = class DonationsController {
                 for (var j = 0; j < DonationsToThisCharity.length; ++j) {
                     counter = counter + DonationsToThisCharity[j].DonationSum;
                 }
-                let { id, name, description, logourl, siteurl, userDonationTotal } = charitiesDonatedToList[i];
+                let { id, name, description, logourl, siteurl, userDonationTotal, featuredimage1, featuredimage2, featuredimage3 } = charitiesDonatedToList[i];
                 userDonationTotal = counter;
                 charitiesDonatedToWithSums.push({
                     id,
@@ -59,7 +59,10 @@ let DonationsController = class DonationsController {
                     logourl,
                     siteurl,
                     userDonationTotal,
-                    counter
+                    counter,
+                    featuredimage1,
+                    featuredimage2,
+                    featuredimage3
                 });
             }
             return charitiesDonatedToWithSums;

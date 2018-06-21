@@ -15,6 +15,15 @@ class GoldenThreadApiApplication extends boot_1.BootMixin(repository_1.Repositor
                 port: process.env.PORT || 3000
             }
         });
+        var dataSourceConfig = new repository_1.juggler.DataSource({
+            name: "db",
+            connector: "loopback-connector-mysql",
+            host: process.env.DATABASE_HOST,
+            port: 3306,
+            database: process.env.DATABASE_NAME,
+            user: process.env.DATABASE_USER,
+            password: process.env.DATABASE_PASSWORD
+        });
         // var dataSourceConfig = new juggler.DataSource({
         //   name: "db",
         //   connector: "loopback-connector-mysql",
@@ -24,10 +33,10 @@ class GoldenThreadApiApplication extends boot_1.BootMixin(repository_1.Repositor
         //   user: 'root',
         //   password: ''
         // });
-        var dataSourceConfig = new repository_1.juggler.DataSource({
-            name: "db",
-            connector: 'memory'
-        });
+        // var dataSourceConfig = new juggler.DataSource({
+        //   name: "db",
+        //   connector: 'memory'
+        //})
         this.dataSource(dataSourceConfig);
         // Set up the custom sequence
         this.sequence(sequence_1.MySequence);

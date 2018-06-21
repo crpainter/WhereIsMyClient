@@ -38,7 +38,7 @@ let LoginController = class LoginController {
                         username: user.username,
                         password: user.password
                     },
-                }, 'shh', {
+                }, 'JumpHigher', {
                     issuer: 'auth.ix.co.za',
                     audience: 'ix.co.za',
                 });
